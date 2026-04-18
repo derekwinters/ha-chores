@@ -8,6 +8,15 @@ A Home Assistant custom integration for tracking household chores. Each chore is
 
 ## Installation
 
+### HACS (recommended)
+
+1. Add this repository to HACS as a custom repository.
+2. Search for **Chores** and install it.
+3. Restart Home Assistant.
+4. Add configuration to `configuration.yaml` (see below).
+
+### Manual
+
 1. Copy `custom_components/chores/` into your Home Assistant `config/custom_components/` directory.
 2. Restart Home Assistant.
 3. Add configuration to `configuration.yaml` (see below).
