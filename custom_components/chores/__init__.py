@@ -16,6 +16,7 @@ from .const import (
     SERVICE_SKIP,
     SERVICE_SKIP_AND_REASSIGN,
     SERVICE_REASSIGN,
+    SERVICE_MARK_DUE,
 )
 from .coordinator import ChoreCoordinator
 from .entity import ChoreEntity
@@ -102,6 +103,11 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         SERVICE_REASSIGN,
         {vol.Required("assignee"): cv.string},
         "async_reassign",
+    )
+    component.async_register_entity_service(
+        SERVICE_MARK_DUE,
+        {},
+        "async_mark_due",
     )
 
     hass.data[DOMAIN] = {"coordinator": coordinator, "component": component}

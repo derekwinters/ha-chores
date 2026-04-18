@@ -30,6 +30,7 @@ from .const import (
     CHANGE_COMPLETED,
     CHANGE_SKIPPED,
     CHANGE_REASSIGNED,
+    CHANGE_FORCED_DUE,
 )
 from .coordinator import ChoreCoordinator
 from .schedule import IntervalSchedule, build_schedule
@@ -262,6 +263,18 @@ class ChoreEntity(Entity):
             self._rotation_index = (self._rotation_index + 1) % len(self._eligible_people)
             self._current_assignee = self._eligible_people[self._rotation_index]
 
+        self._persist()
+        self.async_write_ha_state()
+
+    async def async_mark_due(self) -> None:
+        if self._state == STATE_DUE:
+            return
+        now = dt_util.now()
+        self._state = STATE_DUE
+        self._last_change_type = CHANGE_FORCED_DUE
+        self._last_changed_at = now
+        self._last_changed_by = None
+        self._cancel_transition()
         self._persist()
         self.async_write_ha_state()
 
