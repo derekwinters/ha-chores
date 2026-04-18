@@ -1,0 +1,57 @@
+complete:
+  name: Complete Chore
+  description: Mark a chore as completed and award points to the completer.
+  target:
+    entity:
+      domain: chores
+  fields:
+    completed_by:
+      name: Completed By
+      description: >
+        Person who completed the chore. Defaults to the current assignee.
+        Points are awarded to this person.
+      example: alice
+      selector:
+        text:
+
+skip:
+  name: Skip Chore
+  description: >
+    Skip the current chore occurrence. No points are awarded or penalized.
+    The chore advances to its next scheduled due date.
+  target:
+    entity:
+      domain: chores
+
+skip_and_reassign:
+  name: Skip and Reassign
+  description: >
+    Skip the current occurrence and reassign the chore.
+    For rotating chores, advances rotation if no assignee is specified.
+  target:
+    entity:
+      domain: chores
+  fields:
+    assignee:
+      name: Assignee
+      description: >
+        Person to assign the chore to for the next cycle.
+        If omitted on a rotating chore, rotation advances normally.
+      example: bob
+      selector:
+        text:
+
+reassign:
+  name: Reassign Chore
+  description: Change who the chore is currently assigned to without affecting the schedule.
+  target:
+    entity:
+      domain: chores
+  fields:
+    assignee:
+      name: Assignee
+      description: Person to assign the chore to.
+      required: true
+      example: bob
+      selector:
+        text:

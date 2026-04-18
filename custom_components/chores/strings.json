@@ -1,0 +1,41 @@
+{
+  "title": "Chores",
+  "entity_component": {
+    "_": {
+      "name": "Chore",
+      "state": {
+        "due": "Due",
+        "complete": "Complete"
+      },
+      "state_attributes": {
+        "next_due": { "name": "Next Due" },
+        "age": { "name": "Age" },
+        "assignment_type": {
+          "name": "Assignment Type",
+          "state": {
+            "fixed": "Fixed",
+            "rotating": "Rotating",
+            "open": "Open"
+          }
+        },
+        "eligible_people": { "name": "Eligible People" },
+        "current_assignee": { "name": "Current Assignee" },
+        "next_assignee": { "name": "Next Assignee" },
+        "last_change_type": {
+          "name": "Last Change",
+          "state": {
+            "completed": "Completed",
+            "skipped": "Skipped",
+            "reassigned": "Reassigned"
+          }
+        },
+        "last_changed_at": { "name": "Last Changed At" },
+        "last_changed_by": { "name": "Last Changed By" },
+        "last_completed_by": { "name": "Last Completed By" },
+        "last_completed_at": { "name": "Last Completed At" },
+        "points": { "name": "Points" },
+        "schedule_summary": { "name": "Schedule" }
+      }
+    }
+  }
+}
