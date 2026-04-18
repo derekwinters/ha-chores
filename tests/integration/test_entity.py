@@ -10,6 +10,7 @@ from custom_components.chores.const import (
     CHANGE_COMPLETED,
     CHANGE_SKIPPED,
     CHANGE_REASSIGNED,
+    CHANGE_FORCED_DUE,
 )
 from custom_components.chores.coordinator import ChoreCoordinator
 from custom_components.chores.entity import ChoreEntity
@@ -195,6 +196,46 @@ async def test_reassign_updates_rotation_index(hass):
 
     assert entity._current_assignee == "carol"
     assert entity._rotation_index == 2
+
+
+# ---------------------------------------------------------------------------
+# async_mark_due
+# ---------------------------------------------------------------------------
+
+async def test_mark_due_forces_complete_chore_to_due(hass):
+    entity, _ = _make_entity(hass)
+    await _add_to_hass(entity)
+    entity._state = STATE_COMPLETE
+
+    await entity.async_mark_due()
+
+    assert entity.state == STATE_DUE
+    assert entity._last_change_type == CHANGE_FORCED_DUE
+
+
+async def test_mark_due_is_noop_when_already_due(hass):
+    entity, _ = _make_entity(hass)
+    await _add_to_hass(entity)
+    entity._state = STATE_DUE
+    entity.async_write_ha_state.reset_mock()
+
+    await entity.async_mark_due()
+
+    assert entity.state == STATE_DUE
+    entity.async_write_ha_state.assert_not_called()
+
+
+async def test_mark_due_cancels_scheduled_transition(hass):
+    entity, _ = _make_entity(hass)
+    await _add_to_hass(entity)
+    entity._state = STATE_COMPLETE
+    unsub = MagicMock()
+    entity._unsub_transition = unsub
+
+    await entity.async_mark_due()
+
+    unsub.assert_called_once()
+    assert entity._unsub_transition is None
 
 
 # ---------------------------------------------------------------------------
