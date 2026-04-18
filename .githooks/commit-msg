@@ -1,0 +1,19 @@
+#!/bin/sh
+# Validates conventional commit format.
+# Install: git config core.hooksPath .githooks
+
+commit_msg=$(cat "$1")
+
+pattern='^(feat|fix|chore|docs|test|refactor|ci)(\([a-z0-9_-]+\))?(!)?: .{1,72}$'
+
+first_line=$(echo "$commit_msg" | head -n1)
+
+if ! echo "$first_line" | grep -Eq "$pattern"; then
+  echo "ERROR: Commit message does not follow Conventional Commits format."
+  echo ""
+  echo "  Expected: type(scope): description"
+  echo "  Got:      $first_line"
+  echo ""
+  echo "  Valid types: feat, fix, chore, docs, test, refactor, ci"
+  exit 1
+fi
