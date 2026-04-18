@@ -224,6 +224,8 @@ def build_schedule(config: dict) -> Schedule:
         return MonthlySchedule(day_of_month, weekday_occ, conditions, failure)
 
     if stype == SCHEDULE_INTERVAL:
-        return IntervalSchedule(config["days"], conditions, failure)
+        days_raw = config["days"]
+        days = days_raw[0] if isinstance(days_raw, list) else days_raw
+        return IntervalSchedule(int(days), conditions, failure)
 
     raise ValueError(f"Unknown schedule type: {stype!r}")
