@@ -1,0 +1,10 @@
+{
+  "release-type": "simple",
+  "packages": {
+    ".": {
+      "extra-files": [
+        "custom_components/chores/manifest.json"
+      ]
+    }
+  }
+}
