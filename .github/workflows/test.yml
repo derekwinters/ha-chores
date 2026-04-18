@@ -29,4 +29,6 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements-test.txt
+        env:
+          PIP_RETRIES: 5
       - run: pytest tests/integration/ -v
